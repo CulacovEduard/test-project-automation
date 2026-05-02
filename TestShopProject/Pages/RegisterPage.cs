@@ -82,7 +82,7 @@ public class RegisterPage(IWebDriver driver)
         return this;
     }
     
-    [AllureStep("Нажатие на кнопку 'Register' ")]
+    [AllureStep("Нажатие наa кнопку 'Register' ")]
     public RegisterResultPage CLickRegisterButton()
     {
         var registerButton = WaitHelpers.WaitUntilClickable(driver, _registerButton);
