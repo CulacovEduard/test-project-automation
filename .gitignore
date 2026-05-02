@@ -1,0 +1,27 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/contentModel.xml
+/modules.xml
+/.idea.FlightHelp.Automation.iml
+/projectSettingsUpdater.xml
+# Ignored default folder with query files
+/queries/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Игнорируем результаты сборки C#
+bin/
+obj/
+TestResults/
+*.user
+
+# Игнорируем локальные настройки IDE Rider
+.idea/
+*.sln.proj
+
+# Игнорируем системный мусор macOS (обязательно для маководов!)
+.DS_Store
