@@ -10,9 +10,9 @@ namespace TestShopProject.Core;
 
 public class BaseTest
 {
-    protected IWebDriver Driver;
-    protected TestSettings Settings;
-    protected UserData TestUser;
+    protected IWebDriver Driver = null!;
+    protected TestSettings Settings = null!;
+    protected UserData TestUser = null!;
 
     [SetUp]
     public void Setup()
@@ -23,11 +23,29 @@ public class BaseTest
         switch (Settings.browser.ToLower())
         {
             case "chrome":
-                Driver = new ChromeDriver();
+                var chromeOptions = new ChromeOptions();
+                
+                // Автоматическое переключение в Headless режим для GitHub Actions
+                if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GITHUB_ACTIONS")))
+                {
+                    chromeOptions.AddArgument("--headless=new");
+                    chromeOptions.AddArgument("--no-sandbox");
+                    chromeOptions.AddArgument("--disable-dev-shm-usage");
+                    chromeOptions.AddArgument("--window-size=1920,1080");
+                }
+
+                Driver = new ChromeDriver(chromeOptions);
                 break;
+
             case "firefox":
-                Driver = new FirefoxDriver();
+                var firefoxOptions = new FirefoxOptions();
+                if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GITHUB_ACTIONS")))
+                {
+                    firefoxOptions.AddArgument("--headless");
+                }
+                Driver = new FirefoxDriver(firefoxOptions);
                 break;
+
             default:
                 Driver = new ChromeDriver();
                 break;
@@ -42,14 +60,19 @@ public class BaseTest
     {
         if (Driver != null)
         {
-            if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Failed)
+            try
             {
-                byte[] content = ((ITakesScreenshot)Driver).GetScreenshot().AsByteArray;
-                AllureApi.AddAttachment("Screenshot on Failure", "image/png", content);
+                if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Failed)
+                {
+                    byte[] content = ((ITakesScreenshot)Driver).GetScreenshot().AsByteArray;
+                    AllureApi.AddAttachment("Screenshot on Failure", "image/png", content);
+                }
             }
-
-            Driver.Quit();
-            Driver.Dispose();
+            finally
+            {
+                Driver.Quit();
+                Driver.Dispose();
+            }
         }
     }
 }
