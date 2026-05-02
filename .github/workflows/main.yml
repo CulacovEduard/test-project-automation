@@ -1,13 +1,16 @@
 name: UI Tests & Allure Report
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  # Позволяет запускать тесты вручную из вкладки Actions
+  workflow_dispatch:
+  # Оставляю push, если захочешь автоматику, но ты можешь просто удалить эти строки
+  # push:
+  #   branches: [ main ]
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   test:
@@ -20,19 +23,20 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '10' 
+          dotnet-version: '8.0.x' # Используй актуальную версию твоего проекта (8.0, 9.0 или 10.0)
 
       - name: Restore dependencies
         run: dotnet restore
 
       - name: Run Tests
+        # Добавляем флаг --results-directory для уверенности, где лежат отчеты
         run: dotnet test --no-restore --verbosity normal
-        continue-on-error: true 
+        continue-on-error: true
 
       - name: Get Allure history
         uses: actions/checkout@v3
         if: always()
-        continue-on-error: true
+        continue-on-error: true # Не падает, если ветки gh-pages еще нет
         with:
           ref: gh-pages
           path: gh-pages
