@@ -1,0 +1,3 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"Проверка создания аккаунта с валидными динамическими данными","3980","Успешная регистрация нового пользователя","Web UI Tests","Mon May 04 10:18:59 UTC 2026","passed","Mon May 04 10:19:03 UTC 2026","","User Management","Positive","SuccessRegistrationTest"
+"Проверка создания аккаунта с валидными динамическими данными","4584","Успешная регистрация нового пользователя","Web UI Tests","Mon May 04 10:18:55 UTC 2026","failed","Mon May 04 10:18:59 UTC 2026","","User Management","Negative+Positive","SuccessRegistrationTest"
