@@ -25,7 +25,6 @@ public class BaseTest
             case "chrome":
                 var chromeOptions = new ChromeOptions();
                 
-                // Автоматическое переключение в Headless режим для GitHub Actions
                 if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GITHUB_ACTIONS")))
                 {
                     chromeOptions.AddArgument("--headless=new");
